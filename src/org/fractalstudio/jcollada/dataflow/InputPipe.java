@@ -31,14 +31,14 @@ public class InputPipe {
     /**
      *
      */
-    private DataSource source;
+    private String source;
 
     /**
      *
      * @param semantic
      * @param source
      */
-    public InputPipe(String semantic, DataSource source) {
+    public InputPipe(String semantic, String source) {
         this.semantic = semantic;
         this.source = source;
     }
@@ -53,7 +53,7 @@ public class InputPipe {
     /**
      *
      */
-    public DataSource getSource() {
+    public String getSource() {
         return source;
     }
 }

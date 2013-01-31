@@ -4,10 +4,13 @@
  */
 package org.fractalstudio.jcollada.library_geometries;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import org.fractalstudio.jcollada.ColladaElement;
 import org.fractalstudio.jcollada.dataflow.DataSource;
 import org.fractalstudio.jcollada.dataflow.InputPipe;
+import org.fractalstudio.jcollada.library_geometries.primitives.PrimitiveElement;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -63,13 +66,22 @@ public class Geometry extends ColladaElement {
      */
     private String name;
     /**
-     *
+     * Provides the bulk of the mesh’s vertex data.
      */
-    private LinkedList<DataSource> sources = new LinkedList<>();
+    private HashMap<String, DataSource> sources = new HashMap<>();
     /**
      *
      */
     private LinkedList<InputPipe> inputPipes = new LinkedList<>();
+    /**
+     *
+     */
+    private LinkedList<PrimitiveElement> primitives = new LinkedList<>();
+    /**
+     * Describes the mesh-vertex attributes and establishes their topological
+     * identity.
+     */
+    private Vertices vertices;
 
     /**
      *
@@ -83,8 +95,57 @@ public class Geometry extends ColladaElement {
     /**
      *
      */
+    public void addPrimitive(PrimitiveElement primitive) {
+        primitives.add(primitive);
+    }
+
+    /**
+     *
+     */
+    public LinkedList<PrimitiveElement> getPrimitives() {
+        return primitives;
+    }
+
+    /**
+     *
+     */
+    public void setVertices(Vertices vertices) {
+        this.vertices = vertices;
+    }
+
+    /**
+     *
+     */
+    public void addInputPipe(InputPipe inputPipe) {
+        inputPipes.add(inputPipe);
+    }
+
+    /**
+     *
+     */
+    public LinkedList<InputPipe> getInputPipes() {
+        return inputPipes;
+    }
+
+    /**
+     *
+     */
     public void addDataSource(DataSource source) {
-        sources.add(source);
+        sources.put(source.getId(), source);
+    }
+
+    /**
+     *
+     */
+    public DataSource getDataSource(String id) {
+        return sources.get(id);
+    }
+
+    /**
+     *
+     */
+    public Collection<DataSource> getDataSources() {
+        return sources.values();
     }
 
     /**

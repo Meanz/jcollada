@@ -6,9 +6,14 @@ package org.fractalstudio.jcollada.library_geometries;
 
 import java.util.HashMap;
 import org.fractalstudio.jcollada.ColladaLibrary;
+import org.fractalstudio.jcollada.dataflow.Accessor;
 import org.fractalstudio.jcollada.dataflow.DataSource;
+import org.fractalstudio.jcollada.dataflow.InputPipe;
+import org.fractalstudio.jcollada.dataflow.Param;
 import org.fractalstudio.jcollada.dataflow.datatype.DataArray;
 import org.fractalstudio.jcollada.dataflow.datatype.FloatArray;
+import org.fractalstudio.jcollada.library_geometries.primitives.PrimitiveElement;
+import org.fractalstudio.jcollada.library_geometries.primitives.TrianglesPrimitive;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -46,6 +51,18 @@ public class GeometryLibrary extends ColladaLibrary {
      *
      */
     private DataArray currentDataArray = null;
+    /**
+     *
+     */
+    private Accessor currentAccessor = null;
+    /**
+     *
+     */
+    private Vertices currentVertices = null;
+    /**
+     *
+     */
+    private PrimitiveElement currentPrimitive = null;
 
     /**
      *
@@ -87,6 +104,42 @@ public class GeometryLibrary extends ColladaLibrary {
             throw new UnsupportedOperationException("Name Array is not supported for this source.");
         } else if (getElementName().equals("Int_array") && getParentName().equals("source")) {
             throw new UnsupportedOperationException("Int Array is not supported for this source.");
+        } else if (getElementName().equals("technique_common")) {
+            //What to do here :D?
+        } else if (getElementName().equals("accessor")) {
+            /* @todo add error handling */
+            String _count = getAttribute("count");
+            String _offset = getAttribute("offset");
+            String _stride = getAttribute("stride");
+            String _source = getAttribute("source");
+
+            int count = Integer.parseInt(_count);
+            int offset = -1;
+            int stride = -1;
+
+            if (_offset != null) {
+                offset = Integer.parseInt(_offset);
+            }
+            if (_stride != null) {
+                stride = Integer.parseInt(_stride);
+            }
+
+            currentAccessor = new Accessor(count, offset, _source, stride);
+        } else if (getElementName().equals("param") && getParentName().equals("accessor")) {
+            currentAccessor.addParam(new Param(getAttribute("id"), getAttribute("sid"), getAttribute("type"), getAttribute("semantic")));
+        } else if (getElementName().equals("vertices")) {
+            currentVertices = new Vertices(getAttribute("id"), getAttribute("name"));
+        } else if (getElementName().equals("input")) {
+            InputPipe input = new InputPipe(getAttribute("semantic"), getAttribute("source"));
+
+            if (getParentName().equals("vertices")) {
+                currentVertices.addInputPipe(input);
+            } else if (getParentName().equals("triangles")) {
+                currentPrimitive.addInputPipe(input);
+            }
+        } else if (getElementName().equals("triangles")) {
+            int count = Integer.parseInt(getAttribute("count"));
+            currentPrimitive = new TrianglesPrimitive(getAttribute("id"), count, getAttribute("material"));
         }
 
     }
@@ -111,6 +164,19 @@ public class GeometryLibrary extends ColladaLibrary {
             throw new UnsupportedOperationException("Name Array is not supported for this source.");
         } else if (getElementName().equals("Int_array") && getParentName().equals("source")) {
             throw new UnsupportedOperationException("Int Array is not supported for this source.");
+        } else if (getElementName().equals("p")) {
+            int[] p = null;
+            if (getParentName().equals("triangles")) {
+
+                //@todo revise
+                //I don't think this is fully correct
+                int numPipes = currentPrimitive.getInputPipes().size();
+
+                //@todo revise
+                //*3 for triangles 
+                p = parseInts(getElementText(), currentPrimitive.getCount() * numPipes * 3);
+                ((TrianglesPrimitive) currentPrimitive).setP(p);
+            }
         }
     }
 }

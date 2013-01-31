@@ -4,6 +4,8 @@
  */
 package org.fractalstudio.jcollada.dataflow;
 
+import java.util.LinkedList;
+
 /**
  * Copyright (C) 2013 Steffen Evensen
  *
@@ -23,5 +25,85 @@ package org.fractalstudio.jcollada.dataflow;
  * @author Meanz
  */
 public class Accessor {
-    
+
+    /**
+     *
+     */
+    private int count;
+    /**
+     *
+     */
+    private int offset = 0;
+    /**
+     *
+     */
+    private String source;
+    /**
+     *
+     */
+    private int stride = 1;
+    /**
+     *
+     */
+    private LinkedList<Param> params = new LinkedList<>();
+
+    /**
+     *
+     * @param count
+     * @param offset
+     * @param source
+     * @param stride
+     */
+    public Accessor(int count, int offset, String source, int stride) {
+        this.count = count;
+        this.offset = offset == -1 ? 0 : offset; //Set default to 0
+        this.source = source;
+        this.stride = stride == -1 ? 1 : stride; //Set default to 1
+    }
+
+    /**
+     *
+     */
+    public void addParam(Param param) {
+        params.add(param);
+    }
+
+    /**
+     *
+     */
+    public LinkedList<Param> getParams() {
+        return params;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getCount() {
+        return count;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getOffset() {
+        return offset;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getSource() {
+        return source;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getStride() {
+        return stride;
+    }
 }
