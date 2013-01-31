@@ -1,4 +1,5 @@
-package org.fractalstudio.jcollada.library_geometries.primitives;
+
+package org.fractalstudio.jcollada.dataflow.uri;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -18,34 +19,6 @@ package org.fractalstudio.jcollada.library_geometries.primitives;
  *
  * @author Meanz
  */
-public class TrianglesPrimitive extends PrimitiveElement {
+public interface ColladaURIElement {
 
-    /**
-     *
-     */
-    private int[] p;
-
-    /**
-     *
-     * @param name
-     * @param count
-     * @param material
-     */
-    public TrianglesPrimitive(String name, int count, String material) {
-        super(name, count, material, PrimitiveType.TRIANGLES);
-    }
-
-    /**
-     *
-     */
-    public void setP(int[] p) {
-        this.p = p;
-    }
-
-    /**
-     *
-     */
-    public int[] getP() {
-        return p;
-    }
 }

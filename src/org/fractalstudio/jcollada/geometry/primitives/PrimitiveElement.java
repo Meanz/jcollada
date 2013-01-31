@@ -1,7 +1,8 @@
-package org.fractalstudio.jcollada.library_geometries.primitives;
+package org.fractalstudio.jcollada.geometry.primitives;
 
 import java.util.LinkedList;
 import org.fractalstudio.jcollada.dataflow.InputPipe;
+import org.fractalstudio.jcollada.dataflow.InputPipeContainer;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -21,7 +22,7 @@ import org.fractalstudio.jcollada.dataflow.InputPipe;
  *
  * @author Meanz
  */
-public abstract class PrimitiveElement {
+public abstract class PrimitiveElement extends InputPipeContainer {
 
     /**
      *
@@ -39,10 +40,6 @@ public abstract class PrimitiveElement {
      *
      */
     private PrimitiveType type;
-    /**
-     *
-     */
-    private LinkedList<InputPipe> inputPipes = new LinkedList<>();
 
     /**
      *
@@ -53,21 +50,6 @@ public abstract class PrimitiveElement {
         this.count = count;
         this.material = material;
         this.type = type;
-    }
-
-    /**
-     *
-     * @param inputPipe
-     */
-    public void addInputPipe(InputPipe inputPipe) {
-        inputPipes.add(inputPipe);
-    }
-
-    /**
-     *
-     */
-    public LinkedList<InputPipe> getInputPipes() {
-        return inputPipes;
     }
 
     /**
@@ -100,5 +82,15 @@ public abstract class PrimitiveElement {
      */
     public PrimitiveType getType() {
         return type;
+    }
+
+    /**
+     *
+     * @todo revise this is ugly
+     *
+     * @return
+     */
+    public TrianglesPrimitive toTriangles() {
+        return (TrianglesPrimitive) this;
     }
 }

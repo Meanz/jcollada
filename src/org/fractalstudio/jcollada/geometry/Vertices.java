@@ -1,4 +1,8 @@
-package org.fractalstudio.jcollada.library_geometries.primitives;
+package org.fractalstudio.jcollada.geometry;
+
+import org.fractalstudio.jcollada.dataflow.InputPipeContainer;
+import java.util.LinkedList;
+import org.fractalstudio.jcollada.dataflow.InputPipe;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -18,7 +22,40 @@ package org.fractalstudio.jcollada.library_geometries.primitives;
  *
  * @author Meanz
  */
-public enum PrimitiveType {
+public class Vertices extends InputPipeContainer {
 
-    LINES, LINESTRIPS, POLYGONS, POLYLIST, TRIANGLES, TRIFANS, TRISTRIPS;
+    /**
+     *
+     */
+    private String id;
+    /**
+     *
+     */
+    private String name;
+
+    /**
+     *
+     * @param id
+     * @param name
+     */
+    public Vertices(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getName() {
+        return name;
+    }
 }

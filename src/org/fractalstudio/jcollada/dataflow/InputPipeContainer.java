@@ -1,6 +1,7 @@
-package org.fractalstudio.jcollada.library_geometries;
+package org.fractalstudio.jcollada.dataflow;
 
-import java.util.LinkedList;
+import java.util.Collection;
+import java.util.HashMap;
 import org.fractalstudio.jcollada.dataflow.InputPipe;
 
 /**
@@ -21,58 +22,35 @@ import org.fractalstudio.jcollada.dataflow.InputPipe;
  *
  * @author Meanz
  */
-public class Vertices {
+public abstract class InputPipeContainer {
 
     /**
      *
      */
-    private String id;
-    /**
-     *
-     */
-    private String name;
-    /**
-     *
-     */
-    private LinkedList<InputPipe> inputPipes = new LinkedList<>();
+    private HashMap<String, InputPipe> inputPipes = new HashMap<>();
 
     /**
      *
-     * @param id
-     * @param name
-     */
-    public Vertices(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    /**
-     *
+     * @param inputPipe
      */
     public void addInputPipe(InputPipe inputPipe) {
-        inputPipes.add(inputPipe);
+        inputPipes.put(inputPipe.getSemantic(), inputPipe);
     }
 
     /**
      *
+     * @param semantic
+     * @return
      */
-    public LinkedList<InputPipe> getInputPipes() {
-        return inputPipes;
+    public InputPipe getInputPipe(String semantic) {
+        return inputPipes.get(semantic);
     }
 
     /**
      *
      * @return
      */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getName() {
-        return name;
+    public Collection<InputPipe> getInputPipes() {
+        return inputPipes.values();
     }
 }

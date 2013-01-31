@@ -2,15 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.fractalstudio.jcollada.library_geometries;
+package org.fractalstudio.jcollada.geometry;
 
+import org.fractalstudio.jcollada.dataflow.InputPipeContainer;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
-import org.fractalstudio.jcollada.ColladaElement;
 import org.fractalstudio.jcollada.dataflow.DataSource;
 import org.fractalstudio.jcollada.dataflow.InputPipe;
-import org.fractalstudio.jcollada.library_geometries.primitives.PrimitiveElement;
+import org.fractalstudio.jcollada.geometry.primitives.PrimitiveElement;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -55,7 +55,7 @@ import org.fractalstudio.jcollada.library_geometries.primitives.PrimitiveElement
  *
  * @author Meanz
  */
-public class Geometry extends ColladaElement {
+public class Geometry extends InputPipeContainer {
 
     /**
      *
@@ -69,10 +69,6 @@ public class Geometry extends ColladaElement {
      * Provides the bulk of the mesh’s vertex data.
      */
     private HashMap<String, DataSource> sources = new HashMap<>();
-    /**
-     *
-     */
-    private LinkedList<InputPipe> inputPipes = new LinkedList<>();
     /**
      *
      */
@@ -116,15 +112,8 @@ public class Geometry extends ColladaElement {
     /**
      *
      */
-    public void addInputPipe(InputPipe inputPipe) {
-        inputPipes.add(inputPipe);
-    }
-
-    /**
-     *
-     */
-    public LinkedList<InputPipe> getInputPipes() {
-        return inputPipes;
+    public Vertices getVertices() {
+        return vertices;
     }
 
     /**
@@ -152,7 +141,6 @@ public class Geometry extends ColladaElement {
      *
      * @return
      */
-    @Override
     public String getId() {
         return id;
     }

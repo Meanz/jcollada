@@ -2,9 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.fractalstudio.jcollada;
-
-import org.fractalstudio.jcollada.geometry.GeometryLibrary;
+package org.fractalstudio.jcollada.dataflow.datatype;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -24,24 +22,36 @@ import org.fractalstudio.jcollada.geometry.GeometryLibrary;
  *
  * @author Meanz
  */
-public class ColladaDocument {
-
-    /**
-     * The geometry library
-     */
-    private GeometryLibrary geometryLibrary;
+public class BoolArray extends DataArray {
 
     /**
      *
      */
-    public ColladaDocument() {
-        geometryLibrary = new GeometryLibrary();
+    private boolean[] bools;
+
+    /**
+     *
+     * @param id
+     * @param name
+     * @param count
+     * @param digits
+     * @param magnitude
+     */
+    public BoolArray(String id, String name, int count) {
+        super(id, name, count);
     }
 
     /**
      *
      */
-    public GeometryLibrary getGeometryLibrary() {
-        return geometryLibrary;
+    public void setBools(boolean[] floats) {
+        this.bools = floats;
+    }
+
+    /**
+     *
+     */
+    public boolean[] getBools() {
+        return bools;
     }
 }

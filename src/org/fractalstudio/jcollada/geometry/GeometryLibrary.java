@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.fractalstudio.jcollada.library_geometries;
+package org.fractalstudio.jcollada.geometry;
 
+import java.util.Collection;
 import java.util.HashMap;
 import org.fractalstudio.jcollada.ColladaLibrary;
 import org.fractalstudio.jcollada.dataflow.Accessor;
@@ -12,8 +13,8 @@ import org.fractalstudio.jcollada.dataflow.InputPipe;
 import org.fractalstudio.jcollada.dataflow.Param;
 import org.fractalstudio.jcollada.dataflow.datatype.DataArray;
 import org.fractalstudio.jcollada.dataflow.datatype.FloatArray;
-import org.fractalstudio.jcollada.library_geometries.primitives.PrimitiveElement;
-import org.fractalstudio.jcollada.library_geometries.primitives.TrianglesPrimitive;
+import org.fractalstudio.jcollada.geometry.primitives.PrimitiveElement;
+import org.fractalstudio.jcollada.geometry.primitives.TrianglesPrimitive;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -63,6 +64,14 @@ public class GeometryLibrary extends ColladaLibrary {
      *
      */
     private PrimitiveElement currentPrimitive = null;
+
+    /**
+     *
+     * @return
+     */
+    public Collection<Geometry> getGeometries() {
+        return geometries.values();
+    }
 
     /**
      *
@@ -136,6 +145,8 @@ public class GeometryLibrary extends ColladaLibrary {
                 currentVertices.addInputPipe(input);
             } else if (getParentName().equals("triangles")) {
                 currentPrimitive.addInputPipe(input);
+            } else {
+                throw new UnsupportedOperationException("This parser does not support input for " + getElementName());
             }
         } else if (getElementName().equals("triangles")) {
             int count = Integer.parseInt(getAttribute("count"));

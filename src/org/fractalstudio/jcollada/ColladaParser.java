@@ -7,7 +7,7 @@ package org.fractalstudio.jcollada;
 import java.util.Stack;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import org.fractalstudio.jcollada.library_geometries.GeometryLibrary;
+import org.fractalstudio.jcollada.geometry.GeometryLibrary;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;

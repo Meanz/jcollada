@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.fractalstudio.jcollada.technique;
+package org.fractalstudio.jcollada.extensibility;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
