@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.fractalstudio.jcollada.data;
+package org.fractalstudio.jcollada.dataflow.datatype;
 
 /**
  *
  * @author Meanz
  */
-public abstract class ArrayElement {
+public abstract class DataArray {
 
     /**
      *
@@ -29,7 +29,7 @@ public abstract class ArrayElement {
      * @param name
      * @param count
      */
-    public ArrayElement(String id, String name, int count) {
+    public DataArray(String id, String name, int count) {
         this.id = id;
         this.name = name;
         this.count = count;

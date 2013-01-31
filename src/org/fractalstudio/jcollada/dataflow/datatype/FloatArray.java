@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.fractalstudio.jcollada.data;
+package org.fractalstudio.jcollada.dataflow.datatype;
 
 /**
  *
  * @author Meanz
  */
-public class FloatArray extends ArrayElement {
+public class FloatArray extends DataArray {
 
     /**
      *
@@ -35,6 +35,13 @@ public class FloatArray extends ArrayElement {
         super(id, name, count);
         this.digits = digits;
         this.magnitude = magnitude;
+    }
+
+    /**
+     *
+     */
+    public void setFloats(float[] floats) {
+        this.floats = floats;
     }
 
     /**

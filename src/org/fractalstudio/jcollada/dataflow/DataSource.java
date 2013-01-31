@@ -4,7 +4,7 @@
  */
 package org.fractalstudio.jcollada.dataflow;
 
-import java.util.LinkedList;
+import org.fractalstudio.jcollada.dataflow.datatype.DataArray;
 
 /**
  *
@@ -23,7 +23,7 @@ public class DataSource {
     /**
      *
      */
-    private LinkedList<InputPipe> inputPipes = new LinkedList<>();
+    private DataArray dataArray;
 
     /**
      *
@@ -33,6 +33,20 @@ public class DataSource {
     public DataSource(String id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    /**
+     *
+     */
+    public void setDataArray(DataArray dataArray) {
+        this.dataArray = dataArray;
+    }
+
+    /**
+     *
+     */
+    public DataArray getDataArray() {
+        return dataArray;
     }
 
     /**
