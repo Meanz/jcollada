@@ -4,14 +4,6 @@
  */
 package org.fractalstudio.jcollada.geometry;
 
-import org.fractalstudio.jcollada.dataflow.InputPipeContainer;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import org.fractalstudio.jcollada.dataflow.DataSource;
-import org.fractalstudio.jcollada.dataflow.InputPipe;
-import org.fractalstudio.jcollada.geometry.primitives.PrimitiveElement;
-
 /**
  * Copyright (C) 2013 Steffen Evensen
  *
@@ -55,7 +47,7 @@ import org.fractalstudio.jcollada.geometry.primitives.PrimitiveElement;
  *
  * @author Meanz
  */
-public class Geometry extends InputPipeContainer {
+public class Geometry {
 
     /**
      *
@@ -66,18 +58,9 @@ public class Geometry extends InputPipeContainer {
      */
     private String name;
     /**
-     * Provides the bulk of the mesh’s vertex data.
-     */
-    private HashMap<String, DataSource> sources = new HashMap<>();
-    /**
      *
      */
-    private LinkedList<PrimitiveElement> primitives = new LinkedList<>();
-    /**
-     * Describes the mesh-vertex attributes and establishes their topological
-     * identity.
-     */
-    private Vertices vertices;
+    private Mesh mesh;
 
     /**
      *
@@ -90,51 +73,18 @@ public class Geometry extends InputPipeContainer {
 
     /**
      *
+     * @param mesh
      */
-    public void addPrimitive(PrimitiveElement primitive) {
-        primitives.add(primitive);
+    public void setMesh(Mesh mesh) {
+        this.mesh = mesh;
     }
 
     /**
      *
+     * @return
      */
-    public LinkedList<PrimitiveElement> getPrimitives() {
-        return primitives;
-    }
-
-    /**
-     *
-     */
-    public void setVertices(Vertices vertices) {
-        this.vertices = vertices;
-    }
-
-    /**
-     *
-     */
-    public Vertices getVertices() {
-        return vertices;
-    }
-
-    /**
-     *
-     */
-    public void addDataSource(DataSource source) {
-        sources.put(source.getId(), source);
-    }
-
-    /**
-     *
-     */
-    public DataSource getDataSource(String id) {
-        return sources.get(id);
-    }
-
-    /**
-     *
-     */
-    public Collection<DataSource> getDataSources() {
-        return sources.values();
+    public Mesh getMesh() {
+        return mesh;
     }
 
     /**

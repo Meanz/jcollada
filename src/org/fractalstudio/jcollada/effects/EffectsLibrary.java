@@ -1,6 +1,6 @@
-package org.fractalstudio.jcollada;
+package org.fractalstudio.jcollada.effects;
 
-import org.fractalstudio.jcollada.dataflow.uri.ColladaURI;
+import org.fractalstudio.jcollada.ColladaLibrary;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -18,31 +18,21 @@ import org.fractalstudio.jcollada.dataflow.uri.ColladaURI;
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  *
- *
- * This is just a ridicolous placeholder for the uri type
- *
  * @author Meanz
  */
-public abstract class ColladaElement {
+public class EffectsLibrary extends ColladaLibrary {
 
     /**
      *
      */
-    public ColladaURI elementUri;
-
-    /**
-     *
-     * @param uri
-     */
-    public ColladaElement(ColladaURI uri) {
-        this.elementUri = elementUri;
+    @Override
+    public void parseElementStart() {
     }
 
     /**
      *
-     * @return
      */
-    public ColladaURI getElementUri() {
-        return elementUri;
+    @Override
+    public void parseElementEnd() {
     }
 }

@@ -90,7 +90,23 @@ public abstract class PrimitiveElement extends InputPipeContainer {
      *
      * @return
      */
-    public TrianglesPrimitive toTriangles() {
-        return (TrianglesPrimitive) this;
+    public TrianglesArray toTriangles() {
+        if (getType() != PrimitiveType.TRIANGLES) {
+            throw new UnsupportedOperationException("Can not convert a " + getType().name() + " to a " + PrimitiveType.TRIANGLES.name());
+        }
+        return (TrianglesArray) this;
+    }
+
+    /**
+     *
+     * @todo revise this is ugly
+     *
+     * @return
+     */
+    public PolylistArray toPolylist() {
+        if (getType() != PrimitiveType.POLYLIST) {
+            throw new UnsupportedOperationException("Can not convert a " + getType().name() + " to a " + PrimitiveType.POLYLIST.name());
+        }
+        return (PolylistArray) this;
     }
 }

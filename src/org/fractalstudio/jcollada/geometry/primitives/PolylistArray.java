@@ -1,6 +1,4 @@
-package org.fractalstudio.jcollada;
-
-import org.fractalstudio.jcollada.dataflow.uri.ColladaURI;
+package org.fractalstudio.jcollada.geometry.primitives;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -18,31 +16,56 @@ import org.fractalstudio.jcollada.dataflow.uri.ColladaURI;
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  *
- *
- * This is just a ridicolous placeholder for the uri type
- *
  * @author Meanz
  */
-public abstract class ColladaElement {
+public class PolylistArray extends PrimitiveElement {
 
     /**
      *
      */
-    public ColladaURI elementUri;
+    private int[] p;
+    /**
+     *
+     */
+    private int[] vcount;
 
     /**
      *
-     * @param uri
+     * @param name
+     * @param count
+     * @param material
      */
-    public ColladaElement(ColladaURI uri) {
-        this.elementUri = elementUri;
+    public PolylistArray(String name, int count, String material) {
+        super(name, count, material, PrimitiveType.POLYLIST);
     }
 
     /**
      *
      * @return
      */
-    public ColladaURI getElementUri() {
-        return elementUri;
+    public int[] getVcount() {
+        return vcount;
+    }
+
+    /**
+     *
+     * @param vcount
+     */
+    public void setVcount(int[] vcount) {
+        this.vcount = vcount;
+    }
+
+    /**
+     *
+     */
+    public void setP(int[] p) {
+        this.p = p;
+    }
+
+    /**
+     *
+     */
+    public int[] getP() {
+        return p;
     }
 }

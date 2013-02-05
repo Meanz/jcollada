@@ -4,7 +4,10 @@
  */
 package org.fractalstudio.jcollada;
 
+import org.fractalstudio.jcollada.effects.EffectsLibrary;
 import org.fractalstudio.jcollada.geometry.GeometryLibrary;
+import org.fractalstudio.jcollada.materials.MaterialLibrary;
+import org.fractalstudio.jcollada.visualscene.VisualSceneLibrary;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -30,12 +33,48 @@ public class ColladaDocument {
      * The geometry library
      */
     private GeometryLibrary geometryLibrary;
+    /**
+     * The visual scene library
+     */
+    private VisualSceneLibrary visualSceneLibrary;
+    /**
+     * The material library
+     */
+    private MaterialLibrary materialLibrary;
+    /**
+     *
+     */
+    private EffectsLibrary effectsLibrary;
 
     /**
      *
      */
     public ColladaDocument() {
         geometryLibrary = new GeometryLibrary();
+        visualSceneLibrary = new VisualSceneLibrary();
+        materialLibrary = new MaterialLibrary();
+        effectsLibrary = new EffectsLibrary();
+    }
+
+    /**
+     *
+     */
+    public EffectsLibrary getEffectsLibrary() {
+        return effectsLibrary;
+    }
+
+    /**
+     *
+     */
+    public MaterialLibrary getMaterialLibrary() {
+        return materialLibrary;
+    }
+
+    /**
+     *
+     */
+    public VisualSceneLibrary getVisualSceneLibrary() {
+        return visualSceneLibrary;
     }
 
     /**

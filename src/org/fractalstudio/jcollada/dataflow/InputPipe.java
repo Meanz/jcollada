@@ -4,6 +4,8 @@
  */
 package org.fractalstudio.jcollada.dataflow;
 
+import org.fractalstudio.jcollada.dataflow.uri.ColladaURI;
+
 /**
  * Copyright (C) 2013 Steffen Evensen
  *
@@ -32,15 +34,29 @@ public class InputPipe {
      *
      */
     private String source;
+    /**
+     *
+     */
+    private int offset;
+    /**
+     *
+     */
+    private int set;
+    /**
+     *
+     */
+    private ColladaURI uri;
 
     /**
      *
      * @param semantic
      * @param source
      */
-    public InputPipe(String semantic, String source) {
+    public InputPipe(String semantic, String source, int offset, int set) {
         this.semantic = semantic;
         this.source = source;
+        this.offset = offset;
+        this.set = set;
     }
 
     /**
@@ -55,5 +71,28 @@ public class InputPipe {
      */
     public String getSource() {
         return source;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getOffset() {
+        return offset;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getSet() {
+        return set;
+    }
+
+    /**
+     *
+     */
+    public ColladaURI getSourceUri() {
+        return uri;
     }
 }

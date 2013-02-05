@@ -91,11 +91,16 @@ public class ColladaParser extends DefaultHandler {
                 break;
             case "library_images":
                 break;
+            case "library_materials":
+                currentLibrary = colladaDocument.getMaterialLibrary();
+                break;
             case "library_effects":
+                currentLibrary = colladaDocument.getEffectsLibrary();
                 break;
             case "library_controllers":
                 break;
             case "library_visual_scenes":
+                currentLibrary = colladaDocument.getVisualSceneLibrary();
                 break;
             case "scene":
                 break;
@@ -128,6 +133,7 @@ public class ColladaParser extends DefaultHandler {
         switch (name) {
             case "library_geometries":
             case "library_images":
+            case "library_materials":
             case "library_effects":
             case "library_controllers":
             case "library_visual_scenes":

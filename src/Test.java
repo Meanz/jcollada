@@ -14,7 +14,7 @@ public class Test {
 
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
-        ColladaDocument document = JCollada.parseDocument("./data/zoey/zoey.dae");
+        ColladaDocument document = JCollada.parseDocument("./data/astroboy/astroboy_w_walk.dae");
         System.err.println("Loaded Collada document in " + (System.currentTimeMillis() - startTime) + "ms");
     }
 }

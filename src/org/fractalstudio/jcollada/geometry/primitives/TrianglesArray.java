@@ -18,7 +18,7 @@ package org.fractalstudio.jcollada.geometry.primitives;
  *
  * @author Meanz
  */
-public class TrianglesPrimitive extends PrimitiveElement {
+public class TrianglesArray extends PrimitiveElement {
 
     /**
      *
@@ -31,7 +31,7 @@ public class TrianglesPrimitive extends PrimitiveElement {
      * @param count
      * @param material
      */
-    public TrianglesPrimitive(String name, int count, String material) {
+    public TrianglesArray(String name, int count, String material) {
         super(name, count, material, PrimitiveType.TRIANGLES);
     }
 

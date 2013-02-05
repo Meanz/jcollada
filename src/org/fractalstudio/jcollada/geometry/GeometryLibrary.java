@@ -13,8 +13,9 @@ import org.fractalstudio.jcollada.dataflow.InputPipe;
 import org.fractalstudio.jcollada.dataflow.Param;
 import org.fractalstudio.jcollada.dataflow.datatype.DataArray;
 import org.fractalstudio.jcollada.dataflow.datatype.FloatArray;
+import org.fractalstudio.jcollada.geometry.primitives.PolylistArray;
 import org.fractalstudio.jcollada.geometry.primitives.PrimitiveElement;
-import org.fractalstudio.jcollada.geometry.primitives.TrianglesPrimitive;
+import org.fractalstudio.jcollada.geometry.primitives.TrianglesArray;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -64,6 +65,10 @@ public class GeometryLibrary extends ColladaLibrary {
      *
      */
     private PrimitiveElement currentPrimitive = null;
+    /**
+     *
+     */
+    private Mesh currentMesh = null;
 
     /**
      *
@@ -81,8 +86,7 @@ public class GeometryLibrary extends ColladaLibrary {
         if (getElementName().equals("geometry")) {
             currentGeometry = new Geometry(getAttribute("id"), getAttribute("name"));
         } else if (getElementName().equals("mesh")) {
-            /* we don't do anything here */
-            return;
+            currentMesh = new Mesh();
         } else if (getElementName().equals("convex_mesh")) {
             throw new UnsupportedOperationException("Convex Mesh is not supported by this parser.");
         } else if (getElementName().equals("spline")) {
@@ -139,18 +143,36 @@ public class GeometryLibrary extends ColladaLibrary {
         } else if (getElementName().equals("vertices")) {
             currentVertices = new Vertices(getAttribute("id"), getAttribute("name"));
         } else if (getElementName().equals("input")) {
-            InputPipe input = new InputPipe(getAttribute("semantic"), getAttribute("source"));
+
+            String _offset = getAttribute("offset");
+            String _set = getAttribute("set");
+
+            int offset = -1;
+            int set = -1;
+
+            if (_offset != null) {
+                offset = Integer.parseInt(_offset);
+            }
+            if (_set != null) {
+                set = Integer.parseInt(_set);
+            }
+
+            InputPipe input = new InputPipe(getAttribute("semantic"), getAttribute("source"), offset, set);
 
             if (getParentName().equals("vertices")) {
                 currentVertices.addInputPipe(input);
-            } else if (getParentName().equals("triangles")) {
+            } else if (getParentName().equals("triangles")
+                    || getParentName().equals("polylist")) {
                 currentPrimitive.addInputPipe(input);
             } else {
                 throw new UnsupportedOperationException("This parser does not support input for " + getElementName());
             }
         } else if (getElementName().equals("triangles")) {
             int count = Integer.parseInt(getAttribute("count"));
-            currentPrimitive = new TrianglesPrimitive(getAttribute("id"), count, getAttribute("material"));
+            currentPrimitive = new TrianglesArray(getAttribute("id"), count, getAttribute("material"));
+        } else if (getElementName().equals("polylist")) {
+            int count = Integer.parseInt(getAttribute("count"));
+            currentPrimitive = new PolylistArray(getAttribute("id"), count, getAttribute("material"));
         }
 
     }
@@ -164,13 +186,16 @@ public class GeometryLibrary extends ColladaLibrary {
             geometries.put(currentGeometry.getId(), currentGeometry);
             currentGeometry = null;
         } else if (getElementName().equals("source")) {
-            currentGeometry.addDataSource(currentDataSource);
+            currentMesh.addDataSource(currentDataSource);
             currentDataSource = null;
         } else if (getElementName().equals("float_array")) {
             //Create data array
             ((FloatArray) currentDataArray).setFloats(parseFloats(getElementText(), currentDataArray.getCount()));
             currentDataSource.setDataArray(currentDataArray);
             currentDataArray = null;
+        } else if (getElementName().equals("mesh")) {
+            currentGeometry.setMesh(currentMesh);
+            currentMesh = null;
         } else if (getElementName().equals("Name_array") && getParentName().equals("source")) {
             throw new UnsupportedOperationException("Name Array is not supported for this source.");
         } else if (getElementName().equals("Int_array") && getParentName().equals("source")) {
@@ -178,7 +203,6 @@ public class GeometryLibrary extends ColladaLibrary {
         } else if (getElementName().equals("p")) {
             int[] p = null;
             if (getParentName().equals("triangles")) {
-
                 //@todo revise
                 //I don't think this is fully correct
                 int numPipes = currentPrimitive.getInputPipes().size();
@@ -186,8 +210,53 @@ public class GeometryLibrary extends ColladaLibrary {
                 //@todo revise
                 //*3 for triangles 
                 p = parseInts(getElementText(), currentPrimitive.getCount() * numPipes * 3);
-                ((TrianglesPrimitive) currentPrimitive).setP(p);
+                currentPrimitive.toTriangles().setP(p);
+            } else if (getParentName().equals("polylist")) {
+                //@todo revise
+                //I don't think this is fully correct
+                int numPipes = currentPrimitive.getInputPipes().size();
+
+                //Count num primitives
+                int[] vcount = currentPrimitive.toPolylist().getVcount();
+                int totNum = 0;
+                for (int i = 0; i < vcount.length; i++) {
+                    totNum += vcount[i];
+                }
+                //@todo revise
+                //*3 for triangles 
+                p = parseInts(getElementText(), totNum * numPipes);
+                currentPrimitive.toPolylist().setP(p);
             }
+        } else if (getElementName().equals("vcount")) {
+            int[] vcount = null;
+            if (getParentName().equals("polylist")) {
+
+                //@todo revise
+                //I don't think this is fully correct
+                int numPipes = currentPrimitive.getInputPipes().size();
+
+                //@todo revise
+                //*3 for triangles 
+                vcount = parseInts(getElementText(), currentPrimitive.getCount());
+                currentPrimitive.toPolylist().setVcount(vcount);
+            }
+        } else if (getElementName().equals("triangles")) {
+            currentMesh.addTriangles(currentPrimitive.toTriangles());
+            currentPrimitive = null;
+        } else if (getElementName().equals("polylist")) {
+            currentMesh.addPolylist(currentPrimitive.toPolylist());
+            currentPrimitive = null;
+        } else if (getElementName().equals("vertices")) {
+            currentMesh.setVertices(currentVertices);
+            currentVertices = null;
         }
+    }
+
+    /**
+     * A nifty function for establishing connection between the urls and
+     * everything
+     *
+     */
+    public void finalizeLibrary() {
     }
 }
