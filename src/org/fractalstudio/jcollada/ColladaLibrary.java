@@ -4,7 +4,10 @@
  */
 package org.fractalstudio.jcollada;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import org.fractalstudio.flatmath.Matrix4x4;
 import org.xml.sax.Attributes;
 
 /**
@@ -153,16 +156,16 @@ public abstract class ColladaLibrary {
     /**
      *
      */
-    /*private static Matrix4f parseMatrix4f(String matrix) {
-     FloatBuffer floats = BufferUtils.createFloatBuffer(4 * 4);
-     String[] splits = matrix.split("\\s");
-     for (int i = 0; i < splits.length; i++) {
-     floats.put(Float.parseFloat(splits[i]));
-     }
-     Matrix4f mat = new Matrix4f();
-     return (Matrix4f) mat.loadTranspose((FloatBuffer) floats.flip());
-     }*/
-    
+    public static Matrix4x4 parseMatrix4x4(String matrix) {
+        FloatBuffer floats = ByteBuffer.allocateDirect(16 << 2).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        String[] splits = matrix.split("\\s");
+        for (int i = 0; i < splits.length; i++) {
+            floats.put(Float.parseFloat(splits[i]));
+        }
+        Matrix4x4 mat = new Matrix4x4();
+        return mat.loadTranspose((FloatBuffer) floats.flip());
+    }
+
     /**
      * Parse ints
      */

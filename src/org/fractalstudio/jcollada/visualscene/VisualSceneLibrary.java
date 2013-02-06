@@ -1,16 +1,7 @@
 package org.fractalstudio.jcollada.visualscene;
 
+import java.util.LinkedList;
 import org.fractalstudio.jcollada.ColladaLibrary;
-import org.fractalstudio.jcollada.dataflow.Accessor;
-import org.fractalstudio.jcollada.dataflow.DataSource;
-import org.fractalstudio.jcollada.dataflow.InputPipe;
-import org.fractalstudio.jcollada.dataflow.Param;
-import org.fractalstudio.jcollada.dataflow.datatype.FloatArray;
-import org.fractalstudio.jcollada.geometry.Geometry;
-import org.fractalstudio.jcollada.geometry.Mesh;
-import org.fractalstudio.jcollada.geometry.Vertices;
-import org.fractalstudio.jcollada.geometry.primitives.PolylistArray;
-import org.fractalstudio.jcollada.geometry.primitives.TrianglesArray;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -35,8 +26,45 @@ public class VisualSceneLibrary extends ColladaLibrary {
     /**
      *
      */
+    private LinkedList<VisualScene> visualScenes = new LinkedList<>();
+    /**
+     *
+     */
+    private VisualScene currentVisualScene;
+    /**
+     *
+     */
+    private Node currentNode;
+
+    /**
+     *
+     * @return
+     */
+    public LinkedList<VisualScene> getVisualScenes() {
+        return visualScenes;
+    }
+
+    /**
+     *
+     */
     @Override
     public void parseElementStart() {
+
+        if (getElementName().equals("visual_scene")) {
+            //Add a new visual scene object
+            currentVisualScene = new VisualScene(getAttribute("id"), getAttribute("name"));
+            visualScenes.add(currentVisualScene);
+        } else if (getElementName().equals("node")) {
+            String _id = getAttribute("id");
+            String _name = getAttribute("name");
+            String _sid = getAttribute("sid");
+            String _type = getAttribute("type");
+            String _layer = getAttribute("layer");
+
+            currentNode = new Node(_id, _name, _sid, _type.equals("JOINT") ? NodeType.JOINT : NodeType.NODE, _layer);
+            currentVisualScene.addNode(currentNode);
+        }
+
     }
 
     /**
@@ -44,5 +72,18 @@ public class VisualSceneLibrary extends ColladaLibrary {
      */
     @Override
     public void parseElementEnd() {
+
+        if (getElementName().equals("visual_scene")) {
+            currentVisualScene = null;
+        } else if (getElementName().equals("matrix")) {
+            //* Node Matrix *//
+            currentNode.getTransform().setMatrix(parseMatrix4x4(getElementText()));
+        } else if (getElementName().equals("translate")) {
+            float[] floats = parseFloats(getElementText(), 3);
+            currentNode.getTransform().translate(floats[0], floats[1], floats[2]);
+        } else if (getElementName().equals("rotate")) {
+            float[] floats = parseFloats(getElementText(), 4);
+            currentNode.getTransform().rotate(floats[0], floats[1], floats[2], floats[3]);
+        }
     }
 }
