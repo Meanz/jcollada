@@ -131,12 +131,13 @@ public class ColladaParser extends DefaultHandler {
                 : this.parentElements.peek();
 
         switch (name) {
+            case "library_visual_scenes":
+                System.err.println("Nodes: " + colladaDocument.getVisualSceneLibrary().getVisualScenes().get(0).getNodes().size());
             case "library_geometries":
             case "library_images":
             case "library_materials":
             case "library_effects":
             case "library_controllers":
-            case "library_visual_scenes":
             case "scene":
                 currentLibrary = null;
                 break;

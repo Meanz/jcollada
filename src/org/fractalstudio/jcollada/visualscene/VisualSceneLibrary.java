@@ -35,6 +35,14 @@ public class VisualSceneLibrary extends ColladaLibrary {
      *
      */
     private Node currentNode;
+    /**
+     *
+     */
+    private ControllerInstance currentControllerInstance;
+    /**
+     *
+     */
+    private GeometryInstance currentGeometryInstance;
 
     /**
      *
@@ -63,6 +71,14 @@ public class VisualSceneLibrary extends ColladaLibrary {
 
             currentNode = new Node(_id, _name, _sid, _type.equals("JOINT") ? NodeType.JOINT : NodeType.NODE, _layer);
             currentVisualScene.addNode(currentNode);
+        } else if (getElementName().equals("instance_geometry")) {
+        } else if (getElementName().equals("instance_controller")) {
+            //Wtf is this shit bro
+            String _sid = getAttribute("sid");
+            String _name = getAttribute("name");
+            String _url = getAttribute("url");
+
+            currentControllerInstance = new ControllerInstance(_sid, _name, _url);
         }
 
     }
@@ -84,6 +100,11 @@ public class VisualSceneLibrary extends ColladaLibrary {
         } else if (getElementName().equals("rotate")) {
             float[] floats = parseFloats(getElementText(), 4);
             currentNode.getTransform().rotate(floats[0], floats[1], floats[2], floats[3]);
+        } else if (getElementName().equals("skeleton") && getParentName().equals("instance_controller")) {
+            /**
+             * We know what to do there. lol *
+             */
+            currentControllerInstance.addSkeleton(getElementText());
         }
     }
 }

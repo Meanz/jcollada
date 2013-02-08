@@ -1,5 +1,7 @@
 package org.fractalstudio.jcollada.visualscene;
 
+import java.util.LinkedList;
+
 /**
  * Copyright (C) 2013 Steffen Evensen
  *
@@ -44,6 +46,14 @@ public class Node {
      *
      */
     private Transform transform;
+    /**
+     *
+     */
+    private LinkedList<GeometryInstance> geometryInstances = new LinkedList<>();
+    /**
+     * 
+     */
+    private LinkedList<ControllerInstance> controllerInstances = new LinkedList<>();
 
     /**
      *
@@ -60,6 +70,37 @@ public class Node {
         this.nodeType = nodeType;
         this.layer = layer;
         transform = new Transform();
+    }
+    
+    /**
+     * 
+     */
+    public void addControllerInstance(ControllerInstance instance) {
+        controllerInstances.add(instance);
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public LinkedList<ControllerInstance> getControllerInstances() {
+        return controllerInstances;
+    }
+
+    /**
+     *
+     * @param instance
+     */
+    public void addGeometryInstance(GeometryInstance instance) {
+        geometryInstances.add(instance);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public LinkedList<GeometryInstance> getGeometryInstances() {
+        return geometryInstances;
     }
 
     /**
