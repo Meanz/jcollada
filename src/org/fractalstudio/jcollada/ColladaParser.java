@@ -90,6 +90,7 @@ public class ColladaParser extends DefaultHandler {
                 currentLibrary = colladaDocument.getGeometryLibrary();
                 break;
             case "library_images":
+                //Last man standing
                 break;
             case "library_materials":
                 currentLibrary = colladaDocument.getMaterialLibrary();
@@ -98,6 +99,7 @@ public class ColladaParser extends DefaultHandler {
                 currentLibrary = colladaDocument.getEffectsLibrary();
                 break;
             case "library_controllers":
+                currentLibrary = colladaDocument.getControllersLibrary();
                 break;
             case "library_visual_scenes":
                 currentLibrary = colladaDocument.getVisualSceneLibrary();
@@ -132,7 +134,6 @@ public class ColladaParser extends DefaultHandler {
 
         switch (name) {
             case "library_visual_scenes":
-                System.err.println("Nodes: " + colladaDocument.getVisualSceneLibrary().getVisualScenes().get(0).getNodes().size());
             case "library_geometries":
             case "library_images":
             case "library_materials":

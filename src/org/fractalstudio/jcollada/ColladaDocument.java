@@ -4,6 +4,7 @@
  */
 package org.fractalstudio.jcollada;
 
+import org.fractalstudio.jcollada.controllers.ControllersLibrary;
 import org.fractalstudio.jcollada.effects.EffectsLibrary;
 import org.fractalstudio.jcollada.geometry.GeometryLibrary;
 import org.fractalstudio.jcollada.materials.MaterialLibrary;
@@ -45,6 +46,10 @@ public class ColladaDocument {
      *
      */
     private EffectsLibrary effectsLibrary;
+    /**
+     *
+     */
+    private ControllersLibrary controllersLibrary;
 
     /**
      *
@@ -54,6 +59,14 @@ public class ColladaDocument {
         visualSceneLibrary = new VisualSceneLibrary();
         materialLibrary = new MaterialLibrary();
         effectsLibrary = new EffectsLibrary();
+        controllersLibrary = new ControllersLibrary();
+    }
+
+    /**
+     *
+     */
+    public ControllersLibrary getControllersLibrary() {
+        return controllersLibrary;
     }
 
     /**

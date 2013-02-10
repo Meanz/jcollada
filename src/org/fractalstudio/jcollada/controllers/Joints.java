@@ -1,6 +1,6 @@
 package org.fractalstudio.jcollada.controllers;
 
-import java.util.LinkedList;
+import org.fractalstudio.jcollada.dataflow.InputPipeContainer;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -20,58 +20,11 @@ import java.util.LinkedList;
  *
  * @author Meanz
  */
-public class Controller {
+public class Joints extends InputPipeContainer {
 
     /**
-     *
+     * There is room for adding stuff heres :D
      */
-    private String id;
-    /**
-     *
-     */
-    private String name;
-    /**
-     * A list of skins
-     */
-    private LinkedList<Skin> skins = new LinkedList<>();
-
-    /**
-     *
-     * @param id
-     * @param name
-     */
-    public Controller(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    /**
-     *
-     */
-    public void addSkin(Skin skin) {
-        skins.add(skin);
-    }
-
-    /**
-     *
-     */
-    public LinkedList<Skin> getSkins() {
-        return skins;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getName() {
-        return name;
+    public Joints() {
     }
 }

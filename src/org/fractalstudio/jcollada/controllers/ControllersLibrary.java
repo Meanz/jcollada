@@ -2,7 +2,11 @@ package org.fractalstudio.jcollada.controllers;
 
 import java.util.LinkedList;
 import org.fractalstudio.jcollada.ColladaLibrary;
-import org.fractalstudio.jcollada.visualscene.VisualScene;
+import org.fractalstudio.jcollada.dataflow.DataSource;
+import org.fractalstudio.jcollada.dataflow.InputPipe;
+import org.fractalstudio.jcollada.dataflow.datatype.DataArray;
+import org.fractalstudio.jcollada.dataflow.datatype.FloatArray;
+import org.fractalstudio.jcollada.dataflow.datatype.NameArray;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -36,14 +40,96 @@ public class ControllersLibrary extends ColladaLibrary {
     public LinkedList<Controller> getControllers() {
         return controllers;
     }
+    /**
+     *
+     */
+    private Controller currentController;
+    /**
+     *
+     */
+    private Skin currentSkin;
+    /**
+     *
+     */
+    private DataSource currentSource;
+    /**
+     *
+     */
+    private DataArray currentDataArray;
 
     /**
      *
      */
     @Override
     public void parseElementStart() {
-        
-        
+
+        if (getElementName().equals("controller")) {
+            currentController = new Controller(getAttribute("id"), getAttribute("name"));
+            controllers.add(currentController);
+        } else if (getElementName().equals("skin")) {
+            currentSkin = new Skin(getAttribute("source"));
+            currentController.addSkin(currentSkin);
+        } else if (getElementName().equals("source")) {
+            currentSource = new DataSource(getAttribute("id"), getAttribute("name"));
+        } else if (getElementName().equals("Name_array") || getElementName().equals("float_array")) {
+            String _id = getAttribute("id");
+            String _name = getAttribute("name");
+            String _count = getAttribute("count");
+            int count = -1;
+            if (_count != null) {
+                count = Integer.parseInt(_count);
+            }
+
+            if (getElementName().equals("Name_array")) {
+                currentDataArray = new NameArray(_id, _name, count);
+            }
+            if (getElementName().equals("float_array")) {
+                String _digits = getAttribute("digits");
+                String _magnitude = getAttribute("magnitude");
+
+                short digits = -1;
+                short magnitude = -1;
+
+                if (_digits != null) {
+                    digits = Short.parseShort(_digits);
+                }
+                if (_magnitude != null) {
+                    magnitude = Short.parseShort(_magnitude);
+                }
+
+                currentDataArray = new FloatArray(_id, _name, count, digits, magnitude);
+            }
+        } else if (getElementName().equals("input")) {
+            String _semantic = getAttribute("semantic");
+            String _source = getAttribute("source");
+            String _offset = getAttribute("offset");
+            String _set = getAttribute("set");
+
+            int offset = -1;
+            int set = -1;
+
+            if (_offset != null) {
+                offset = Integer.parseInt(_offset);
+            }
+            if (_set != null) {
+                set = Integer.parseInt(_set);
+            }
+            InputPipe inputPipe = new InputPipe(_semantic, _source, offset, set);
+
+            if (getParentName().equals("joints")) {
+                currentSkin.getJoints().addInputPipe(inputPipe);
+            } else if (getParentName().equals("vertex_weights")) {
+                currentSkin.getVertexWeights().addInputPipe(inputPipe);
+            }
+        } else if (getElementName().equals("vertex_weights")) {
+            String _count = getAttribute("count");
+            int count = -1;
+            if (_count != null) {
+                count = Integer.parseInt(_count);
+            }
+            currentSkin.getVertexWeights().setCount(count);
+        }
+
     }
 
     /**
@@ -51,5 +137,18 @@ public class ControllersLibrary extends ColladaLibrary {
      */
     @Override
     public void parseElementEnd() {
+        if (getElementName().equals("controller")) {
+            currentController = null;
+        } else if (getElementName().equals("skin")) {
+            currentSkin = null;
+        } else if (getElementName().equals("bind_shape_matrix")) {
+            currentSkin.setBindShapeMatrix(parseMatrix4x4(getElementText()));
+        } else if (getElementName().equals("Name_array")) {
+            ((NameArray) currentDataArray).setNames(parseNames(getElementText(), currentDataArray.getCount()));
+        } else if (getElementName().equals("float_array")) {
+            ((FloatArray) currentDataArray).setFloats(parseFloats(getElementText(), currentDataArray.getCount()));
+        } else if (getElementName().equals("source")) {
+            currentSource.setDataArray(currentDataArray);
+        }
     }
 }

@@ -1,6 +1,6 @@
 package org.fractalstudio.jcollada.controllers;
 
-import java.util.LinkedList;
+import org.fractalstudio.jcollada.dataflow.InputPipeContainer;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -20,58 +20,72 @@ import java.util.LinkedList;
  *
  * @author Meanz
  */
-public class Controller {
+public class VertexWeights extends InputPipeContainer {
 
     /**
      *
      */
-    private String id;
+    private int[] v;
     /**
      *
      */
-    private String name;
+    private int[] vcount;
     /**
-     * A list of skins
+     *
      */
-    private LinkedList<Skin> skins = new LinkedList<>();
+    private int count;
 
     /**
-     *
-     * @param id
-     * @param name
+     * There is room for adding stuff heres :D
      */
-    public Controller(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    /**
-     *
-     */
-    public void addSkin(Skin skin) {
-        skins.add(skin);
-    }
-
-    /**
-     *
-     */
-    public LinkedList<Skin> getSkins() {
-        return skins;
+    public VertexWeights() {
     }
 
     /**
      *
      * @return
      */
-    public String getId() {
-        return id;
+    public int getCount() {
+        return count;
+    }
+
+    /**
+     *
+     * @param count
+     */
+    public void setCount(int count) {
+        this.count = count;
     }
 
     /**
      *
      * @return
      */
-    public String getName() {
-        return name;
+    public int[] getV() {
+        return v;
+    }
+
+    /**
+     *
+     * @param v
+     */
+    public void setV(int[] v) {
+        this.v = v;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int[] getVcount() {
+        return vcount;
+    }
+
+    /**
+     *
+     * @param vcount
+     */
+    public void setVcount(int[] vcount) {
+        this.vcount = vcount;
     }
 }

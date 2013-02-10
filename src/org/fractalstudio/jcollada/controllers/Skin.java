@@ -1,6 +1,6 @@
 package org.fractalstudio.jcollada.controllers;
 
-import java.util.LinkedList;
+import org.fractalstudio.flatmath.Matrix4x4;
 
 /**
  * Copyright (C) 2013 Steffen Evensen
@@ -20,58 +20,70 @@ import java.util.LinkedList;
  *
  * @author Meanz
  */
-public class Controller {
+public class Skin {
 
     /**
      *
      */
-    private String id;
+    private String source;
     /**
      *
      */
-    private String name;
+    private Matrix4x4 bindShapeMatrix;
     /**
-     * A list of skins
+     *
      */
-    private LinkedList<Skin> skins = new LinkedList<>();
+    private Joints joints;
+    /**
+     *
+     */
+    private VertexWeights vertexWeights;
 
     /**
      *
-     * @param id
-     * @param name
+     * @param source
      */
-    public Controller(String id, String name) {
-        this.id = id;
-        this.name = name;
+    public Skin(String source) {
+        this.source = source;
+        joints = new Joints();
+        vertexWeights = new VertexWeights();
     }
 
     /**
      *
      */
-    public void addSkin(Skin skin) {
-        skins.add(skin);
+    public VertexWeights getVertexWeights() {
+        return vertexWeights;
     }
 
     /**
      *
      */
-    public LinkedList<Skin> getSkins() {
-        return skins;
+    public Joints getJoints() {
+        return joints;
     }
 
     /**
      *
      * @return
      */
-    public String getId() {
-        return id;
+    public String getSource() {
+        return source;
     }
 
     /**
      *
      * @return
      */
-    public String getName() {
-        return name;
+    public Matrix4x4 getBindShapeMatrix() {
+        return bindShapeMatrix;
+    }
+
+    /**
+     *
+     * @param bindShapeMatrix
+     */
+    public void setBindShapeMatrix(Matrix4x4 bindShapeMatrix) {
+        this.bindShapeMatrix = bindShapeMatrix;
     }
 }
