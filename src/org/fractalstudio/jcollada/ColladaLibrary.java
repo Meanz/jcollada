@@ -173,6 +173,9 @@ public abstract class ColladaLibrary {
         int[] ints = new int[count];
         try {
             String[] splits = int_array.trim().split("\\s");
+            if(count != splits.length) {
+                throw new Exception("Something about out of bounds?");
+            }
             for (int i = 0; i < splits.length; i++) {
                 ints[i] = Integer.parseInt(splits[i]);
             }

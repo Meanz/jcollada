@@ -149,6 +149,20 @@ public class ControllersLibrary extends ColladaLibrary {
             ((FloatArray) currentDataArray).setFloats(parseFloats(getElementText(), currentDataArray.getCount()));
         } else if (getElementName().equals("source")) {
             currentSource.setDataArray(currentDataArray);
+        } else if (getElementName().equals("vcount") && getParentName().equals("vertex_weights")) {
+            /**
+             * Parse vcounts's *
+             */
+            currentSkin.getVertexWeights().setVcount(parseInts(getElementText(), currentSkin.getVertexWeights().getCount()));
+        } else if (getElementName().equals("v") && getParentName().equals("vertex_weights")) {
+            /**
+             * Count them vcounts
+             */
+            int tot = 0;
+            for (int i = 0; i < currentSkin.getVertexWeights().getCount(); i++) {
+                tot += currentSkin.getVertexWeights().getVcount()[i] * 2;
+            }
+            currentSkin.getVertexWeights().setV(parseInts(getElementText(), tot));
         }
     }
 }
